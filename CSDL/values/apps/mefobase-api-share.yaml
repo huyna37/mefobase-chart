@@ -2,3 +2,4 @@ apps:
     mefobase-api-share:
         image: registry.mefobase.vn/mefobase-api-share:1.0.0
         containerPort: 80
+        nodePort: 30053

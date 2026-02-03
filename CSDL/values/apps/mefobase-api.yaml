@@ -2,4 +2,5 @@ apps:
     mefobase-api:
         image: registry.mefobase.vn/mefobase-api:1.0.0
         containerPort: 80
+        nodePort: 30054
         replicas: 3

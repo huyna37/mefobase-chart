@@ -1,38 +1,57 @@
 # Service cho Apps
-{{- range .Values.apps }}
+{{- $apps := dict }}
+{{- range $path, $content := .Files.Glob "values/apps/*.yaml" }}
+{{- $file := fromYaml $content }}
+{{- if $file.apps }}
+{{- $apps = merge $apps $file.apps }}
+{{- end }}
+{{- end }}
+{{- if .Values.apps }}
+{{- $apps = merge $apps .Values.apps }}
+{{- end }}
+{{- $serviceType := .Values.global.serviceType | default "ClusterIP" }}
+{{- $appKeys := keys $apps | sortAlpha }}
+{{- range $i, $name := $appKeys }}
+{{- $app := index $apps $name }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .name }}
+  name: {{ $app.name | default $name }}
   labels:
-    app: {{ .name }}
+    app: {{ $app.name | default $name }}
 spec:
-  type: ClusterIP
+  type: {{ $serviceType }}
   selector:
-    app: {{ .name }}
+    app: {{ $app.name | default $name }}
   ports:
     - port: 80
-      targetPort: {{ .containerPort }}
+      targetPort: {{ $app.containerPort }}
       protocol: TCP
       name: http
+      {{- if and (eq $serviceType "NodePort") $app.nodePort }}
+      nodePort: {{ $app.nodePort }}
+      {{- end }}
 {{- end }}
 
 # Service cho Database
-{{- range .Values.databases }}
+{{- range $j, $db := .Values.databases }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .name }}
+  name: {{ $db.name }}
   labels:
-    app: {{ .name }}
+    app: {{ $db.name }}
 spec:
-  type: ClusterIP
+  type: {{ $serviceType }}
   selector:
-    app: {{ .name }}
+    app: {{ $db.name }}
   ports:
-    - port: {{ .port }}
-      targetPort: {{ .port }}
+    - port: {{ $db.port }}
+      targetPort: {{ $db.port }}
       protocol: TCP
+      {{- if and (eq $serviceType "NodePort") $db.nodePort }}
+      nodePort: {{ $db.nodePort }}
+      {{- end }}
 {{- end }}

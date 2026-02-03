@@ -2,4 +2,5 @@ apps:
     portal-dvvht-ui:
         image: hoanvu/portal-dvvht-os-api
         containerPort: 80
+        nodePort: 30065
         type: frontend
