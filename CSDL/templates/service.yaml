@@ -1,0 +1,38 @@
+# Service cho Apps
+{{- range .Values.apps }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .name }}
+  labels:
+    app: {{ .name }}
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ .name }}
+  ports:
+    - port: 80
+      targetPort: {{ .containerPort }}
+      protocol: TCP
+      name: http
+{{- end }}
+
+# Service cho Database
+{{- range .Values.databases }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .name }}
+  labels:
+    app: {{ .name }}
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ .name }}
+  ports:
+    - port: {{ .port }}
+      targetPort: {{ .port }}
+      protocol: TCP
+{{- end }}

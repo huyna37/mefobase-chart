@@ -1,0 +1,65 @@
+{{- range .Values.apps }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .name }}
+  labels:
+    app: {{ .name }}
+    group: mefobase
+spec:
+  replicas: {{ .replicas | default 1 }}
+  selector:
+    matchLabels:
+      app: {{ .name }}
+  strategy:
+    type: RollingUpdate # Checklist 3.1: Rolling deploy
+  template:
+    metadata:
+      labels:
+        app: {{ .name }}
+    spec:
+      imagePullSecrets:
+        {{- toYaml $.Values.global.imagePullSecrets | nindent 8 }}
+      containers:
+        - name: {{ .name }}
+          image: "{{ .image }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: {{ .containerPort }}
+          
+          # Checklist 4.1: Env Variables
+      envFrom:
+      - configMapRef:
+        name: {{ .configMapName | default "mefobase-config" }}
+      - secretRef:
+        name: {{ .secretName | default "mefobase-secrets" }}
+          {{- if .env }}
+          env:
+            {{- toYaml .env | nindent 12 }}
+          {{- end }}
+
+          # Checklist 3.6 & 5.3: Resource Limits & GPU
+          resources:
+            {{- toYaml .resources | nindent 12 }}
+
+          # Checklist 6.1: Health Check
+          livenessProbe:
+            httpGet:
+              path: {{ if eq .type "frontend" }}/{{ else }}/health{{ end }}
+              port: {{ .containerPort }}
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: {{ if eq .type "frontend" }}/{{ else }}/ready{{ end }}
+              port: {{ .containerPort }}
+            initialDelaySeconds: 10
+            periodSeconds: 5
+
+      # Checklist 3.6 GPU Node Selector
+      {{- if .nodeSelector }}
+      nodeSelector:
+        {{- toYaml .nodeSelector | nindent 8 }}
+      {{- end }}
+{{- end }}

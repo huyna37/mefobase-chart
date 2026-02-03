@@ -1,0 +1,121 @@
+# Cấu hình chung
+global:
+  environment: Production
+  imagePullSecrets:
+    - name: backend3-registry-secret
+
+# Cấu hình Ingress (Routing)
+ingress:
+  enabled: true
+  className: nginx
+  tls:
+    - secretName: backend3-tls
+      hosts:
+        - backend3.vn
+        - hotline.backend3.vn
+  hosts:
+    # 1. Frontend Web (Người dùng chính)
+    - host: backend3.vn
+      paths:
+        - path: /
+          pathType: Prefix
+          service: frontend-web
+        - path: /api
+          pathType: Prefix
+          service: backend-api
+    
+    # 2. Hotline Web (Người dùng nội bộ/Hotline)
+    - host: hotline.backend3.vn
+      paths:
+        - path: /
+          pathType: Prefix
+          service: hotline-web
+        - path: /api
+          pathType: Prefix
+          service: hotline-api
+        - path: /hangfire # Dashboard cho Job
+          pathType: Prefix
+          service: sftp-hangfire
+
+# DANH SÁCH 13 CẤU PHẦN SERVICE (Stateless)
+apps:
+  # --- GROUP 1: FRONTEND ---
+  - name: frontend-web
+    image: registry.domain.com/frontend-web:1.0.0
+    containerPort: 80
+    type: frontend
+
+  - name: hotline-web
+    image: registry.domain.com/hotline-web:1.0.0
+    containerPort: 80
+    type: frontend
+
+  # --- GROUP 2: CORE SERVICES ---
+  - name: backend-api
+    image: registry.domain.com/backend-api:1.0.0
+    containerPort: 80
+    replicas: 2
+    resources: { limits: { cpu: "1000m", memory: "1Gi" } }
+
+  - name: hotline-api
+    image: registry.domain.com/hotline-api:1.0.0
+    containerPort: 80
+
+  - name: core-transaction
+    image: registry.domain.com/core-transaction:1.0.0
+    containerPort: 80
+    replicas: 2 # Core xử lý giao dịch cần scale
+
+  - name: api-share
+    image: registry.domain.com/api-share:1.0.0
+    containerPort: 80
+
+  # --- GROUP 3: ADAPTERS (Kết nối bên ngoài) ---
+  # Checklist 3.4: Cần check kỹ ENV kết nối đối tác
+  - name: notification-adapter
+    image: registry.domain.com/notification-adapter:1.0.0
+    containerPort: 80
+
+  - name: sftp-adapter
+    image: registry.domain.com/sftp-adapter:1.0.0
+    containerPort: 80
+    env:
+      SFTP_HOST: "sftp.partner.com" # Ví dụ
+    
+  - name: c08-adapter
+    image: registry.domain.com/c08-adapter:1.0.0
+    containerPort: 80
+
+  - name: c06-adapter
+    image: registry.domain.com/c06-adapter:1.0.0
+    containerPort: 80
+
+  - name: its-adapter
+    image: registry.domain.com/its-adapter:1.0.0
+    containerPort: 80
+
+  - name: csdl-adapter
+    image: registry.domain.com/csdl-adapter:1.0.0
+    containerPort: 80
+
+  # --- GROUP 4: BACKGROUND JOB ---
+  - name: sftp-hangfire
+    image: registry.domain.com/sftp-hangfire:1.0.0
+    containerPort: 80 # Để view Dashboard
+    replicas: 1 # Job thường chạy 1 instance để tránh duplicate (hoặc config lock DB)
+
+# DANH SÁCH 2 DATABASE (Stateful)
+databases:
+  - name: db-altibase
+    image: altibase/altibase:latest
+    port: 20300
+    storageSize: 100Gi
+    mountPath: /var/lib/altibase
+
+  - name: db-postgresql
+    image: postgres:14-alpine
+    port: 5432
+    storageSize: 50Gi
+    mountPath: /var/lib/postgresql/data
+    env:
+      POSTGRES_DB: backend3_prod

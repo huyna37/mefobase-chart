@@ -1,0 +1,129 @@
+global:
+    environment: Production
+    imagePullSecrets:
+        - name: mefobase-registry-secret
+
+ingress:
+    enabled: true
+    className: nginx
+    hosts:
+        - host: mefobase.vn
+          paths:
+              - path: /
+                pathType: Prefix
+                service: mefobase-ui
+              - path: /api
+                pathType: Prefix
+                service: operator-gateway
+              - path: /cqnn
+                pathType: Prefix
+                service: portal-cqnn-ui
+    tls:
+        - secretName: mefobase-tls-secret
+          hosts:
+              - mefobase.vn
+
+apps:
+    - name: mefobase-core
+      image: registry.etc.vn/ttdvcn/mefobase-core/dev:81f2191a
+      containerPort: 80
+      replicas: 1
+      configMapName: mefobase-core-config
+      secretName: mefobase-core-secret
+      env:
+          - name: LD_PRELOAD
+            value: ""
+          - name: MQ_ENABLE_OPEN_TRACING
+            value: "true"
+      resources:
+          limits:
+              cpu: "2"
+              memory: 4Gi
+          requests:
+              cpu: 100m
+              memory: 200Mi
+
+    - name: operator-gateway
+      image: registry.mefobase.vn/operator-gateway:1.0.0
+      containerPort: 8080
+      replicas: 2
+
+    - name: mefobase-ui
+      image: registry.mefobase.vn/mefobase-ui:1.0.0
+      containerPort: 80
+      type: frontend
+
+    - name: portal-cqnn-ui
+      image: registry.mefobase.vn/portal-cqnn-ui:1.0.0
+      containerPort: 80
+      type: frontend
+
+    - name: portal-dvvht-ui
+      image: registry.mefobase.vn/portal-dvvht-ui:1.0.0
+      containerPort: 80
+      type: frontend
+
+    - name: mefobase-api
+      image: registry.mefobase.vn/mefobase-api:1.0.0
+      containerPort: 80
+      replicas: 3
+      resources:
+          limits:
+              cpu: "1000m"
+              memory: "1Gi"
+
+    - name: mefobase-api-share
+      image: registry.mefobase.vn/mefobase-api-share:1.0.0
+      containerPort: 80
+
+    - name: portal-cqnn-api
+      image: registry.mefobase.vn/portal-cqnn-api:1.0.0
+      containerPort: 80
+
+    - name: portal-dvvht-api
+      image: registry.mefobase.vn/portal-dvvht-api:1.0.0
+      containerPort: 80
+
+    - name: ocr-toolkit
+      image: registry.mefobase.vn/ocr-toolkit:1.0.0
+      containerPort: 5000
+      resources:
+          limits:
+              nvidia.com/gpu: 1
+      nodeSelector:
+          accelerator: nvidia-gpu
+
+    - name: ai-adapter
+      image: registry.mefobase.vn/ai-adapter:1.0.0
+      containerPort: 80
+
+    - name: mefobase-backend-adapter
+      image: registry.mefobase.vn/mefobase-backend-adapter:1.0.0
+      containerPort: 80
+
+    - name: mefobase-fe-adapter
+      image: registry.mefobase.vn/mefobase-fe-adapter:1.0.0
+      containerPort: 80
+
+    - name: mefobase-notification
+      image: registry.mefobase.vn/mefobase-notification:1.0.0
+      containerPort: 80
+
+    - name: mefobase-its-adapter
+      image: registry.mefobase.vn/mefobase-its-adapter:1.0.0
+      containerPort: 80
+
+databases:
+    - name: db-altibase
+      image: altibase/altibase:latest
+      port: 20300
+      storageSize: 50Gi
+      mountPath: /var/lib/altibase
+
+    - name: db-postgresql
+      image: postgres:14-alpine
+      port: 5432
+      storageSize: 20Gi
+      mountPath: /var/lib/postgresql/data
+      env:
+          POSTGRES_DB: mefobase_prod
