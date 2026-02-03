@@ -1,0 +1,149 @@
+ocrToolkitConfig:
+    configYaml: |-
+        # OCR Toolkit Configuration
+
+        #
+        ============================================================================
+
+
+        # Logger configuration
+
+        logger:
+          console:
+            enabled: true
+            level: INFO                      # DEBUG, INFO, WARN, ERROR
+          file:
+            enabled: true
+            level: DEBUG
+            path: ./logs/ocr-toolkit.log
+            rotation:
+              hour: 0
+              minute: 0
+              max_files: 7
+
+        # Service configuration
+
+        service:
+          name: ocr-toolkit
+          instance_id: ocr-toolkit-001
+          worker_threads: 16                 # Increased for maximum parallelism (was 4)
+
+        # Kafka configuration
+
+        kafka:
+          # Broker configuration
+          brokers: "kafka-service.kafka:9092"              # Comma-separated broker list
+          client_id: "ocr-toolkit"
+          group_id: "ocr-toolkit-group"
+
+          # Consumer settings
+          consumer:
+            auto_offset_reset: earliest      # earliest, latest
+            enable_auto_commit: true
+            auto_commit_interval_ms: 5000
+            session_timeout_ms: 30000
+            max_poll_records: 50             # Increased for batch processing (was 10)
+
+          # Producer settings
+          producer:
+            acks: all                        # 0, 1, all
+            retries: 3
+            retry_backoff_ms: 100
+            batch_size: 32768                # Increased for better throughput (was 16384)
+            linger_ms: 1                     # Reduced for lower latency (was 5)
+            compression_type: lz4            # Fast compression for better throughput (was none)
+
+          # Topic configuration (per use case)
+          topics:
+            # Use Case 1: Plate detection + OCR
+            plate_ocr:
+              request: "OCRImageRequest"
+              response: "OCRImageResponse"
+
+            # Use Case 2: Image overlay
+            overlay:
+              request: "ocr.overlay.request"
+              response: "ocr.overlay.response"
+
+            # Use Case 3: Image compression
+            compress:
+              request: "ocr.compress.request"
+              response: "ocr.compress.response"
+
+        # MinIO configuration
+
+        minio:
+          endpoint: "minio:9000"
+          access_key: "minioadmin"
+          secret_key: "minioadmin"
+          use_ssl: false
+          region: ""
+
+          # Bucket configuration
+          buckets:
+            input: "ocr-input"               # Input images bucket
+            output: "ocr-output"             # Output/processed images bucket
+            temp: "ocr-temp"                 # Temporary storage bucket
+
+          # Connection settings
+
+          connection:
+            timeout_ms: 30000
+            max_connections: 50              # Increased connection pool (was 10)
+            retry_attempts: 3
+            retry_delay_ms: 1000
+
+        # Model configuration
+
+        models:
+          # Model encryption settings
+          encryption:
+            enabled: true                     # Enable encrypted model loading
+            use_embedded_key: true            # Use key embedded in binary (vs file)
+
+          # Plate detector
+          plate_detector:
+            backend: onnxruntime              # tensorrt or onnxruntime
+            engine_path: /opt/ocr-toolkit/models/place_detection.onnx.enc
+            confidence_threshold: 0.5
+            nms_threshold: 0.4
+
+          # OCR engine
+          ocr_engine:
+            backend: onnxruntime              # tensorrt or onnxruntime
+            engine_path: /opt/ocr-toolkit/models/cct-s-v1-global-model/cct_s_v1_global.onnx.enc
+            vocabulary: "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            confidence_threshold: 0.6
+
+        # Processing configuration
+
+        processing:
+          # Use Case 1: Plate OCR settings
+          plate_ocr:
+            max_plates_per_image: 10
+            min_plate_area: 1000             # Minimum plate bounding box area
+            expand_ratio: 0.1                # Expand detected plate bbox by this ratio
+            save_plate_crops: true           # Save individual plate crop images
+
+          # Use Case 2: Overlay settings
+          overlay:
+            font_family: "sans-serif"
+            default_font_size: 24
+            default_font_color: [255, 255, 255]  # RGB
+            default_background_color: [0, 0, 0, 180]  # RGBA
+            padding: 10
+            position: bottom-right           # top-left, top-right, bottom-left, bottom-right, center
+
+          # Use Case 3: Compression settings
+          compress:
+            default_quality: 85              # JPEG quality (1-100)
+            max_dimension: 1920              # Maximum dimension (width or height)
+            preserve_aspect_ratio: true
+            output_format: jpeg              # jpeg, png, webp
+
+        # Health check configuration
+
+        health:
+          enabled: true
+          port: 8080
+          endpoint: /health

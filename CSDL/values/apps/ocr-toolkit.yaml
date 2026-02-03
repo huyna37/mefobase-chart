@@ -1,0 +1,4 @@
+apps:
+    ocr-toolkit:
+        image: hoanvu/ocr-toolkit
+        configMapName: ocr-toolkit

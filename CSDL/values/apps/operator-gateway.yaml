@@ -1,0 +1,5 @@
+apps:
+    operator-gateway:
+        image: registry.mefobase.vn/operator-gateway:1.0.0
+        containerPort: 8080
+        replicas: 2

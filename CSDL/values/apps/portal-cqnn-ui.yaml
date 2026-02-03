@@ -1,0 +1,5 @@
+apps:
+    portal-cqnn-ui:
+        image: hoanvu/portal-cqnn-os-ui
+        containerPort: 80
+        type: frontend

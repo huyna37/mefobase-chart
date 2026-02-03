@@ -1,0 +1,1021 @@
+mefobaseCoreConfig:
+  appsettingsJson: |-
+    {
+      "ConnectionStrings": {
+        "Default": "Server=10.0.229.42; Database=MEFOBASE; User Id=dev;Password=dev@1234; TrustServerCertificate=True;MultipleActiveResultSets=False",
+        "Store": "Server=10.0.229.42; Database=etoll_datamart; User Id=dev;Password=dev@1234; TrustServerCertificate=True;MultipleActiveResultSets=False",
+        "Altibase": "Host=10.0.229.239;Port=20300;DSN=mefobase_core;User ID=sys;Password=manager;",
+        "Notification": "Host=10.0.229.55;Port=31555;Database=Backend3Notification;Username=admin;Password=Etc@1234;"
+      },
+      "AbpZeroLicenseCode": "KLATSOFTWAREFULLVERSION",
+      "Abp": {
+        "RedisCache": {
+          "ConnectionString": "localhost",
+          "DatabaseId": -1
+        }
+      },
+      "App": {
+        "PerformanceThresholdMs": "2000",
+        "ServerRootAddress": "https://localhost:44301/",
+        "ClientRootAddress": "http://localhost:4200/",
+        "CorsOrigins": "http://*.mycompany.com,http://localhost:4200,http://10.0.229.55:30714",
+        "SwaggerEndPoint": "/swagger/v1/swagger.json",
+        "AllowAnonymousSignalRConnection": "true",
+        "HomePageUrl": "/index.html",
+        "AuditLog": {
+          "AutoDeleteExpiredLogs": {
+            "IsEnabled": false,
+            "ExcelBackup": {
+              "IsEnabled": false,
+              "FilePath": "App_Data/AuditLogsBackups/"
+            }
+          }
+        },
+        "VehicleInfoSync": {
+          "IsEnabled": false,
+          "Url": "http://10.0.229.55:30011/vehicleInfo",
+          "BatchSize": 4000,
+          "Period": 900000,
+          "RunOnStart": false
+        },
+        "VehicleFeeStationSync": {
+          "IsEnabled": false,
+          "Url": "http://10.0.229.55:30718/api/transactions-irregular",
+          "BatchSize": 4000,
+          "Period": 1000,
+          "RunOnStart": false
+        },
+        "DuplicateDetection": {
+          "Period": 60000,
+          "RunOnStart": false
+        },
+        "ExternalApis": {
+          "AuthenC0608Url": "http://10.0.229.55:30011/AuthenC0608",
+          "AuthenticAccountRegistrationDepartmentUrl": "http://10.0.229.55:30011/AuthenticAccountRegistrationDepartment"
+        },
+        "TransportTransactionStage": {
+          "Url": "http://10.0.229.55:30718/api/TransportTransactionStage"
+        },
+        "AltibaseUrl": {
+          "BaseUrl": "http://10.0.229.55:30718",
+          "VehicleTransit": "http://10.0.229.55:30718/api/TransactionVehicleStation",
+          "IrregularTransaction": "http://10.0.229.55:30718/api/IrregularTransaction",
+          "UnexplainedIrregularTransaction": "http://10.0.229.55:30718/api/IrregularTransaction/Unexplained",
+          "environmentVariables": {
+            "ASPNETCORE_ENVIRONMENT": "Development"
+          }
+        },
+        "ImageBasePath": "http://10.0.229.55:30026"
+      },
+      "Authentication": {
+        "AllowSocialLoginSettingsPerTenant": false,
+        "Facebook": {
+          "IsEnabled": "false",
+          "AppId": "",
+          "AppSecret": ""
+        },
+        "Twitter": {
+          "IsEnabled": "false",
+          "ApiKey": "",
+          "ApiKeySecret": ""
+        },
+        "Google": {
+          "IsEnabled": "false",
+          "ClientId": "",
+          "ClientSecret": "",
+          "UserInfoEndpoint": "https://www.googleapis.com/oauth2/v2/userinfo"
+        },
+        "Microsoft": {
+          "IsEnabled": "false",
+          "ConsumerKey": "",
+          "ConsumerSecret": ""
+        },
+        "OpenId": {
+          "IsEnabled": "false",
+          "ClientId": "",
+          "Authority": "",
+          "LoginUrl": "",
+          "ValidateIssuer": "false",
+          "ResponseType": "id_token",
+          "ClaimsMapping": [
+            {
+              "claim": "unique_name",
+              "key": "preferred_username"
+            }
+          ]
+        },
+        "WsFederation": {
+          "IsEnabled": "false",
+          "Authority": "",
+          "ClientId": "",
+          "Tenant": "",
+          "MetaDataAddress": ""
+        },
+        "JwtBearer": {
+          "IsEnabled": "true",
+          "SecurityKey": "ITS_8CFB2EC534E14D56",
+          "Issuer": "ITS",
+          "Audience": "ITS"
+        }
+      },
+      "Configuration": {
+        "AzureKeyVault": {
+          "IsEnabled": "false",
+          "KeyVaultName": "",
+          "TenantId": "",
+          "ClientId": "",
+          "ClientSecret": ""
+        }
+      },
+      "Twilio": {
+        "AccountSid": "",
+        "AuthToken": "",
+        "SenderNumber": ""
+      },
+      "Recaptcha": {
+        "SiteKey": "6LeEZ-kUAAAAAGdgiM9BoWiRKBZOeULch73OlyZP",
+        "SecretKey": "6LeEZ-kUAAAAADBrLM1zkIy0mF_4rbBp3toA6zIJ"
+      },
+      "IdentityServer": {
+        "IsEnabled": "false",
+        "Authority": "https://localhost:44301/",
+        "ApiName": "default-api",
+        "ApiSecret": "secret",
+        "Clients": [
+          {
+            "ClientId": "client",
+            "AllowedGrantTypes": [
+              "password"
+            ],
+            "ClientSecrets": [
+              {
+                "Value": "def2edf7-5d42-4edc-a84a-30136c340e13"
+              }
+            ],
+            "AllowedScopes": [
+              "default-api"
+            ]
+          },
+          {
+            "ClientId": "demo",
+            "ClientName": "MVC Client Demo",
+            "AllowedGrantTypes": [
+              "hybrid"
+            ],
+            "RequireConsent": "true",
+            "ClientSecrets": [
+              {
+                "Value": "def2edf7-5d42-4edc-a84a-30136c340e13"
+              }
+            ],
+            "RedirectUris": [
+              "http://openidclientdemo.com:8001/signin-oidc"
+            ],
+            "PostLogoutRedirectUris": [
+              "http://openidclientdemo.com:8001/signout-callback-oidc"
+            ],
+            "AllowedScopes": [
+              "openid",
+              "profile",
+              "default-api"
+            ],
+            "AllowOfflineAccess": "true"
+          }
+        ]
+      },
+      "Payment": {
+        "PayPal": {
+          "IsActive": "true",
+          "Environment": "sandbox",
+          "BaseUrl": "https://api.sandbox.paypal.com/v1",
+          "ClientId": "",
+          "ClientSecret": "",
+          "DemoUsername": "",
+          "DemoPassword": "",
+          "DisabledFundings": []
+        },
+        "Stripe": {
+          "IsActive": "true",
+          "BaseUrl": "https://api.stripe.com/v1",
+          "SecretKey": "",
+          "PublishableKey": "",
+          "WebhookSecret": "",
+          "PaymentMethodTypes": [
+            "card"
+          ]
+        }
+      },
+      "HealthChecks": {
+        "HealthChecksEnabled": false,
+        "HealthChecksUI": {
+          "HealthChecksUIEnabled": false,
+          "HealthChecks": [
+            {
+              "Name": "ITS.Web.Host",
+              "Uri": "https://localhost:44301/health"
+            }
+          ],
+          "EvaluationTimeOnSeconds": 10,
+          "MinimumSecondsBetweenFailureNotifications": 60
+        }
+      },
+      "KestrelServer": {
+        "IsEnabled": false
+      },
+      "Swagger": {
+        "ShowSummaries": false
+      },
+      "RabbitMQ": {
+        "IsActive": true,
+        "Host": "10.0.229.55",
+        "Port": 30672,
+        "UserName": "admin",
+        "PassWord": "admin123"
+      },
+      "RabbitMQQueue": {
+        "Exchange": "LTIA_MEFOBASE",
+        "BiometricQueue": "BIO_REGISTRATION_QUEUE",
+        "DetectEventQueue": "DETECT_EVENT_QUEUE",
+        "StartAnalyzeQueue": "START_ANALYZE",
+        "EndAnalyzeQueue": "END_ANALYZE",
+        "AnalysisResultQueue": "ANALYSIS_RESULT"
+      },
+      "Minio": {
+        "Endpoint": "http://localhost:9000",
+        "AccessKey": "minioadmin",
+        "SecretKey": "minioadmin123",
+        "BucketName": "MEFOBASE"
+      },
+      "Serilog": {
+        "Using": [
+          "Serilog.Sinks.Console",
+          "Serilog.Sinks.File",
+          "Serilog.Sinks.Seq",
+          "Serilog.Sinks.Async"
+        ],
+        "MinimumLevel": {
+          "Default": "Warning",
+          "Override": {
+            "Microsoft": "Warning",
+            "Microsoft.Hosting.Lifetime": "Warning",
+            "Microsoft.EntityFrameworkCore": "Warning",
+            "System": "Warning",
+            "System.Net.Http.HttpClient": "Warning"
+          }
+        },
+        "WriteTo": [
+          {
+            "Name": "Console",
+            "Args": {
+              "outputTemplate": "[{Timestamp:HH:mm:ss} {Level:u3}] [{SourceContext}] {Message:lj} {Properties:j}{NewLine}{Exception}"
+            }
+          },
+          {
+            "Name": "Async",
+            "Args": {
+              "configure": [
+                {
+                  "Name": "File",
+                  "Args": {
+                    "path": "logs/mefobase-share-.log",
+                    "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] [{SourceContext}] {Message:lj} {Properties:j}{NewLine}{Exception}",
+                    "rollingInterval": "Day",
+                    "retainedFileCountLimit": 30,
+                    "fileSizeLimitBytes": 10485760,
+                    "rollOnFileSizeLimit": true,
+                    "shared": true,
+                    "flushToDiskInterval": "00:00:01"
+                  }
+                }
+              ],
+              "bufferSize": 10000,
+              "blockWhenFull": false
+            }
+          },
+          {
+            "Name": "Async",
+            "Args": {
+              "configure": [
+                {
+                  "Name": "File",
+                  "Args": {
+                    "path": "logs/mefobase-share-errors-.log",
+                    "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] [{SourceContext}] {Message:lj} {Properties:j}{NewLine}{Exception}",
+                    "rollingInterval": "Day",
+                    "retainedFileCountLimit": 90,
+                    "restrictedToMinimumLevel": "Warning",
+                    "shared": true
+                  }
+                }
+              ],
+              "bufferSize": 10000,
+              "blockWhenFull": false
+            }
+          }
+        ],
+        "Enrich": [
+          "FromLogContext",
+          "WithMachineName",
+          "WithThreadId",
+          "WithProcessId",
+          "WithEnvironmentName"
+        ],
+        "Properties": {
+          "Application": "mefobase-Production-Server",
+          "Environment": "Production",
+          "Version": "1.0.0"
+        }
+      }
+    }
+
+ocrToolkitConfig:
+    configYaml: |-
+        # OCR Toolkit Configuration
+
+        #
+        ============================================================================
+
+
+        # Logger configuration
+
+        logger:
+          console:
+            enabled: true
+            level: INFO                      # DEBUG, INFO, WARN, ERROR
+          file:
+            enabled: true
+            level: DEBUG
+            path: ./logs/ocr-toolkit.log
+            rotation:
+              hour: 0
+              minute: 0
+              max_files: 7
+
+        # Service configuration
+
+        service:
+          name: ocr-toolkit
+          instance_id: ocr-toolkit-001
+          worker_threads: 16                 # Increased for maximum parallelism (was 4)
+
+        # Kafka configuration
+
+        kafka:
+          # Broker configuration
+          brokers: "kafka-service.kafka:9092"              # Comma-separated broker list
+          client_id: "ocr-toolkit"
+          group_id: "ocr-toolkit-group"
+
+          # Consumer settings
+          consumer:
+            auto_offset_reset: earliest      # earliest, latest
+            enable_auto_commit: true
+            auto_commit_interval_ms: 5000
+            session_timeout_ms: 30000
+            max_poll_records: 50             # Increased for batch processing (was 10)
+
+          # Producer settings
+          producer:
+            acks: all                        # 0, 1, all
+            retries: 3
+            retry_backoff_ms: 100
+            batch_size: 32768                # Increased for better throughput (was 16384)
+            linger_ms: 1                     # Reduced for lower latency (was 5)
+            compression_type: lz4            # Fast compression for better throughput (was none)
+
+          # Topic configuration (per use case)
+          topics:
+            # Use Case 1: Plate detection + OCR
+            plate_ocr:
+              request: "OCRImageRequest"
+              response: "OCRImageResponse"
+
+            # Use Case 2: Image overlay
+            overlay:
+              request: "ocr.overlay.request"
+              response: "ocr.overlay.response"
+
+            # Use Case 3: Image compression
+            compress:
+              request: "ocr.compress.request"
+              response: "ocr.compress.response"
+
+        # MinIO configuration
+
+        minio:
+          endpoint: "minio:9000"
+          access_key: "minioadmin"
+          secret_key: "minioadmin"
+          use_ssl: false
+          region: ""
+
+          # Bucket configuration
+          buckets:
+            input: "ocr-input"               # Input images bucket
+            output: "ocr-output"             # Output/processed images bucket
+            temp: "ocr-temp"                 # Temporary storage bucket
+
+          # Connection settings
+
+          connection:
+            timeout_ms: 30000
+            max_connections: 50              # Increased connection pool (was 10)
+            retry_attempts: 3
+            retry_delay_ms: 1000
+
+        # Model configuration
+
+        models:
+          # Model encryption settings
+          encryption:
+            enabled: true                     # Enable encrypted model loading
+            use_embedded_key: true            # Use key embedded in binary (vs file)
+            
+          # Plate detector
+          plate_detector:
+            backend: onnxruntime              # tensorrt or onnxruntime
+            engine_path: /opt/ocr-toolkit/models/place_detection.onnx.enc
+            confidence_threshold: 0.5
+            nms_threshold: 0.4
+
+          # OCR engine
+          ocr_engine:
+            backend: onnxruntime              # tensorrt or onnxruntime
+            engine_path: /opt/ocr-toolkit/models/cct-s-v1-global-model/cct_s_v1_global.onnx.enc
+            vocabulary: "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            confidence_threshold: 0.6
+
+        # Processing configuration
+
+        processing:
+          # Use Case 1: Plate OCR settings
+          plate_ocr:
+            max_plates_per_image: 10
+            min_plate_area: 1000             # Minimum plate bounding box area
+            expand_ratio: 0.1                # Expand detected plate bbox by this ratio
+            save_plate_crops: true           # Save individual plate crop images
+
+          # Use Case 2: Overlay settings
+          overlay:
+            font_family: "sans-serif"
+            default_font_size: 24
+            default_font_color: [255, 255, 255]  # RGB
+            default_background_color: [0, 0, 0, 180]  # RGBA
+            padding: 10
+            position: bottom-right           # top-left, top-right, bottom-left, bottom-right, center
+
+          # Use Case 3: Compression settings
+          compress:
+            default_quality: 85              # JPEG quality (1-100)
+            max_dimension: 1920              # Maximum dimension (width or height)
+            preserve_aspect_ratio: true
+            output_format: jpeg              # jpeg, png, webp
+
+        # Health check configuration
+
+        health:
+          enabled: true
+          port: 8080
+          endpoint: /health
+
+apps: {}
+```
+</attachment>
+<attachment id="file:values.yaml">
+User's active selection:
+Excerpt from values.yaml, lines 1 to 486:
+```yaml
+global:
+    environment: Production
+    imagePullSecrets:
+        - name: mefobase-registry-secret
+
+mefobaseCoreConfig:
+    appsettingsJson: |-
+        {
+          "ConnectionStrings": {
+            "Default": "Server=10.0.229.42; Database=MEFOBASE; User Id=dev;Password=dev@1234; TrustServerCertificate=True;MultipleActiveResultSets=False",
+            "Store": "Server=10.0.229.42; Database=etoll_datamart; User Id=dev;Password=dev@1234; TrustServerCertificate=True;MultipleActiveResultSets=False",
+            "Altibase": "Host=10.0.229.239;Port=20300;DSN=mefobase_core;User ID=sys;Password=manager;",
+            "Notification": "Host=10.0.229.55;Port=31555;Database=Backend3Notification;Username=admin;Password=Etc@1234;"
+          },
+          "AbpZeroLicenseCode": "KLATSOFTWAREFULLVERSION",
+          "Abp": {
+            "RedisCache": {
+              "ConnectionString": "localhost",
+              "DatabaseId": -1
+            }
+          },
+          "App": {
+            "PerformanceThresholdMs": "2000",
+            "ServerRootAddress": "https://localhost:44301/",
+            "ClientRootAddress": "http://localhost:4200/",
+            "CorsOrigins": "http://*.mycompany.com,http://localhost:4200,http://10.0.229.55:30714",
+            "SwaggerEndPoint": "/swagger/v1/swagger.json",
+            "AllowAnonymousSignalRConnection": "true",
+            "HomePageUrl": "/index.html",
+            "AuditLog": {
+              "AutoDeleteExpiredLogs": {
+                "IsEnabled": false,
+                "ExcelBackup": {
+                  "IsEnabled": false,
+                  "FilePath": "App_Data/AuditLogsBackups/"
+                }
+              }
+            },
+            "VehicleInfoSync": {
+              "IsEnabled": false,
+              "Url": "http://10.0.229.55:30011/vehicleInfo",
+              "BatchSize": 4000,
+              "Period": 900000,
+              "RunOnStart": false
+            },
+            "VehicleFeeStationSync": {
+              "IsEnabled": false,
+              "Url": "http://10.0.229.55:30718/api/transactions-irregular",
+              "BatchSize": 4000,
+              "Period": 1000,
+              "RunOnStart": false
+            },
+            "DuplicateDetection": {
+              "Period": 60000,
+              "RunOnStart": false
+            },
+            "ExternalApis": {
+              "AuthenC0608Url": "http://10.0.229.55:30011/AuthenC0608",
+              "AuthenticAccountRegistrationDepartmentUrl": "http://10.0.229.55:30011/AuthenticAccountRegistrationDepartment"
+            },
+            "TransportTransactionStage": {
+              "Url": "http://10.0.229.55:30718/api/TransportTransactionStage"
+            },
+            "AltibaseUrl": {
+              "BaseUrl": "http://10.0.229.55:30718",
+              "VehicleTransit": "http://10.0.229.55:30718/api/TransactionVehicleStation",
+              "IrregularTransaction": "http://10.0.229.55:30718/api/IrregularTransaction",
+              "UnexplainedIrregularTransaction": "http://10.0.229.55:30718/api/IrregularTransaction/Unexplained",
+              "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+              }
+            },
+            "ImageBasePath": "http://10.0.229.55:30026"
+          },
+          "Authentication": {
+            "AllowSocialLoginSettingsPerTenant": false,
+            "Facebook": {
+              "IsEnabled": "false",
+              "AppId": "",
+              "AppSecret": ""
+            },
+            "Twitter": {
+              "IsEnabled": "false",
+              "ApiKey": "",
+              "ApiKeySecret": ""
+            },
+            "Google": {
+              "IsEnabled": "false",
+              "ClientId": "",
+              "ClientSecret": "",
+              "UserInfoEndpoint": "https://www.googleapis.com/oauth2/v2/userinfo"
+            },
+            "Microsoft": {
+              "IsEnabled": "false",
+              "ConsumerKey": "",
+              "ConsumerSecret": ""
+            },
+            "OpenId": {
+              "IsEnabled": "false",
+              "ClientId": "",
+              "Authority": "",
+              "LoginUrl": "",
+              "ValidateIssuer": "false",
+              "ResponseType": "id_token",
+              "ClaimsMapping": [
+                {
+                  "claim": "unique_name",
+                  "key": "preferred_username"
+                }
+              ]
+            },
+            "WsFederation": {
+              "IsEnabled": "false",
+              "Authority": "",
+              "ClientId": "",
+              "Tenant": "",
+              "MetaDataAddress": ""
+            },
+            "JwtBearer": {
+              "IsEnabled": "true",
+              "SecurityKey": "ITS_8CFB2EC534E14D56",
+              "Issuer": "ITS",
+              "Audience": "ITS"
+            }
+          },
+          "Configuration": {
+            "AzureKeyVault": {
+              "IsEnabled": "false",
+              "KeyVaultName": "",
+              "TenantId": "",
+              "ClientId": "",
+              "ClientSecret": ""
+            }
+          },
+          "Twilio": {
+            "AccountSid": "",
+            "AuthToken": "",
+            "SenderNumber": ""
+          },
+          "Recaptcha": {
+            "SiteKey": "6LeEZ-kUAAAAAGdgiM9BoWiRKBZOeULch73OlyZP",
+            "SecretKey": "6LeEZ-kUAAAAADBrLM1zkIy0mF_4rbBp3toA6zIJ"
+          },
+          "IdentityServer": {
+            "IsEnabled": "false",
+            "Authority": "https://localhost:44301/",
+            "ApiName": "default-api",
+            "ApiSecret": "secret",
+            "Clients": [
+              {
+                "ClientId": "client",
+                "AllowedGrantTypes": [
+                  "password"
+                ],
+                "ClientSecrets": [
+                  {
+                    "Value": "def2edf7-5d42-4edc-a84a-30136c340e13"
+                  }
+                ],
+                "AllowedScopes": [
+                  "default-api"
+                ]
+              },
+              {
+                "ClientId": "demo",
+                "ClientName": "MVC Client Demo",
+                "AllowedGrantTypes": [
+                  "hybrid"
+                ],
+                "RequireConsent": "true",
+                "ClientSecrets": [
+                  {
+                    "Value": "def2edf7-5d42-4edc-a84a-30136c340e13"
+                  }
+                ],
+                "RedirectUris": [
+                  "http://openidclientdemo.com:8001/signin-oidc"
+                ],
+                "PostLogoutRedirectUris": [
+                  "http://openidclientdemo.com:8001/signout-callback-oidc"
+                ],
+                "AllowedScopes": [
+                  "openid",
+                  "profile",
+                  "default-api"
+                ],
+                "AllowOfflineAccess": "true"
+              }
+            ]
+          },
+          "Payment": {
+            "PayPal": {
+              "IsActive": "true",
+              "Environment": "sandbox",
+              "BaseUrl": "https://api.sandbox.paypal.com/v1",
+              "ClientId": "",
+              "ClientSecret": "",
+              "DemoUsername": "",
+              "DemoPassword": "",
+              "DisabledFundings": []
+            },
+            "Stripe": {
+              "IsActive": "true",
+              "BaseUrl": "https://api.stripe.com/v1",
+              "SecretKey": "",
+              "PublishableKey": "",
+              "WebhookSecret": "",
+              "PaymentMethodTypes": [
+                "card"
+              ]
+            }
+          },
+          "HealthChecks": {
+            "HealthChecksEnabled": false,
+            "HealthChecksUI": {
+              "HealthChecksUIEnabled": false,
+              "HealthChecks": [
+                {
+                  "Name": "ITS.Web.Host",
+                  "Uri": "https://localhost:44301/health"
+                }
+              ],
+              "EvaluationTimeOnSeconds": 10,
+              "MinimumSecondsBetweenFailureNotifications": 60
+            }
+          },
+          "KestrelServer": {
+            "IsEnabled": false
+          },
+          "Swagger": {
+            "ShowSummaries": false
+          },
+          "RabbitMQ": {
+            "IsActive": true,
+            "Host": "10.0.229.55",
+            "Port": 30672,
+            "UserName": "admin",
+            "PassWord": "admin123"
+          },
+          "RabbitMQQueue": {
+            "Exchange": "LTIA_MEFOBASE",
+            "BiometricQueue": "BIO_REGISTRATION_QUEUE",
+            "DetectEventQueue": "DETECT_EVENT_QUEUE",
+            "StartAnalyzeQueue": "START_ANALYZE",
+            "EndAnalyzeQueue": "END_ANALYZE",
+            "AnalysisResultQueue": "ANALYSIS_RESULT"
+          },
+          "Minio": {
+            "Endpoint": "http://localhost:9000",
+            "AccessKey": "minioadmin",
+            "SecretKey": "minioadmin123",
+            "BucketName": "MEFOBASE"
+          },
+          "Serilog": {
+            "Using": [
+              "Serilog.Sinks.Console",
+              "Serilog.Sinks.File",
+              "Serilog.Sinks.Seq",
+              "Serilog.Sinks.Async"
+            ],
+            "MinimumLevel": {
+              "Default": "Warning",
+              "Override": {
+                "Microsoft": "Warning",
+                "Microsoft.Hosting.Lifetime": "Warning",
+                "Microsoft.EntityFrameworkCore": "Warning",
+                "System": "Warning",
+                "System.Net.Http.HttpClient": "Warning"
+              }
+            },
+            "WriteTo": [
+              {
+                "Name": "Console",
+                "Args": {
+                  "outputTemplate": "[{Timestamp:HH:mm:ss} {Level:u3}] [{SourceContext}] {Message:lj} {Properties:j}{NewLine}{Exception}"
+                }
+              },
+              {
+                "Name": "Async",
+                "Args": {
+                  "configure": [
+                    {
+                      "Name": "File",
+                      "Args": {
+                        "path": "logs/mefobase-share-.log",
+                        "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] [{SourceContext}] {Message:lj} {Properties:j}{NewLine}{Exception}",
+                        "rollingInterval": "Day",
+                        "retainedFileCountLimit": 30,
+                        "fileSizeLimitBytes": 10485760,
+                        "rollOnFileSizeLimit": true,
+                        "shared": true,
+                        "flushToDiskInterval": "00:00:01"
+                      }
+                    }
+                  ],
+                  "bufferSize": 10000,
+                  "blockWhenFull": false
+                }
+              },
+              {
+                "Name": "Async",
+                "Args": {
+                  "configure": [
+                    {
+                      "Name": "File",
+                      "Args": {
+                        "path": "logs/mefobase-share-errors-.log",
+                        "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] [{SourceContext}] {Message:lj} {Properties:j}{NewLine}{Exception}",
+                        "rollingInterval": "Day",
+                        "retainedFileCountLimit": 90,
+                        "restrictedToMinimumLevel": "Warning",
+                        "shared": true
+                      }
+                    }
+                  ],
+                  "bufferSize": 10000,
+                  "blockWhenFull": false
+                }
+              }
+            ],
+            "Enrich": [
+              "FromLogContext",
+              "WithMachineName",
+              "WithThreadId",
+              "WithProcessId",
+              "WithEnvironmentName"
+            ],
+            "Properties": {
+              "Application": "mefobase-Production-Server",
+              "Environment": "Production",
+              "Version": "1.0.0"
+            }
+          }
+        }
+
+ocrToolkitConfig:
+    configYaml: |-
+        # OCR Toolkit Configuration
+
+        #
+        ============================================================================
+
+
+        # Logger configuration
+
+        logger:
+          console:
+            enabled: true
+            level: INFO                      # DEBUG, INFO, WARN, ERROR
+          file:
+            enabled: true
+            level: DEBUG
+            path: ./logs/ocr-toolkit.log
+            rotation:
+              hour: 0
+              minute: 0
+              max_files: 7
+
+        # Service configuration
+
+        service:
+          name: ocr-toolkit
+          instance_id: ocr-toolkit-001
+          worker_threads: 16                 # Increased for maximum parallelism (was 4)
+
+        # Kafka configuration
+
+        kafka:
+          # Broker configuration
+          brokers: "kafka-service.kafka:9092"              # Comma-separated broker list
+          client_id: "ocr-toolkit"
+          group_id: "ocr-toolkit-group"
+
+          # Consumer settings
+          consumer:
+            auto_offset_reset: earliest      # earliest, latest
+            enable_auto_commit: true
+            auto_commit_interval_ms: 5000
+            session_timeout_ms: 30000
+            max_poll_records: 50             # Increased for batch processing (was 10)
+
+          # Producer settings
+          producer:
+            acks: all                        # 0, 1, all
+            retries: 3
+            retry_backoff_ms: 100
+            batch_size: 32768                # Increased for better throughput (was 16384)
+            linger_ms: 1                     # Reduced for lower latency (was 5)
+            compression_type: lz4            # Fast compression for better throughput (was none)
+
+          # Topic configuration (per use case)
+          topics:
+            # Use Case 1: Plate detection + OCR
+            plate_ocr:
+              request: "OCRImageRequest"
+              response: "OCRImageResponse"
+
+            # Use Case 2: Image overlay
+            overlay:
+              request: "ocr.overlay.request"
+              response: "ocr.overlay.response"
+
+            # Use Case 3: Image compression
+            compress:
+              request: "ocr.compress.request"
+              response: "ocr.compress.response"
+
+        # MinIO configuration
+
+        minio:
+          endpoint: "minio:9000"
+          access_key: "minioadmin"
+          secret_key: "minioadmin"
+          use_ssl: false
+          region: ""
+
+          # Bucket configuration
+          buckets:
+            input: "ocr-input"               # Input images bucket
+            output: "ocr-output"             # Output/processed images bucket
+            temp: "ocr-temp"                 # Temporary storage bucket
+
+          # Connection settings
+
+          connection:
+            timeout_ms: 30000
+            max_connections: 50              # Increased connection pool (was 10)
+            retry_attempts: 3
+            retry_delay_ms: 1000
+
+        # Model configuration
+
+        models:
+          # Model encryption settings
+          encryption:
+            enabled: true                     # Enable encrypted model loading
+            use_embedded_key: true            # Use key embedded in binary (vs file)
+            
+          # Plate detector
+          plate_detector:
+            backend: onnxruntime              # tensorrt or onnxruntime
+            engine_path: /opt/ocr-toolkit/models/place_detection.onnx.enc
+            confidence_threshold: 0.5
+            nms_threshold: 0.4
+
+          # OCR engine
+          ocr_engine:
+            backend: onnxruntime              # tensorrt or onnxruntime
+            engine_path: /opt/ocr-toolkit/models/cct-s-v1-global-model/cct_s_v1_global.onnx.enc
+            vocabulary: "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            confidence_threshold: 0.6
+
+        # Processing configuration
+
+        processing:
+          # Use Case 1: Plate OCR settings
+          plate_ocr:
+            max_plates_per_image: 10
+            min_plate_area: 1000             # Minimum plate bounding box area
+            expand_ratio: 0.1                # Expand detected plate bbox by this ratio
+            save_plate_crops: true           # Save individual plate crop images
+
+          # Use Case 2: Overlay settings
+          overlay:
+            font_family: "sans-serif"
+            default_font_size: 24
+            default_font_color: [255, 255, 255]  # RGB
+            default_background_color: [0, 0, 0, 180]  # RGBA
+            padding: 10
+            position: bottom-right           # top-left, top-right, bottom-left, bottom-right, center
+
+          # Use Case 3: Compression settings
+          compress:
+            default_quality: 85              # JPEG quality (1-100)
+            max_dimension: 1920              # Maximum dimension (width or height)
+            preserve_aspect_ratio: true
+            output_format: jpeg              # jpeg, png, webp
+
+        # Health check configuration
+
+        health:
+          enabled: true
+          port: 8080
+          endpoint: /health
+
+apps: {}
+```
+</attachment>
+
+</attachments>
+<context>
+The current date is February 3, 2026.
+Terminals:
+Terminal: powershell
+Last Command: git push --set-upstream origin main
+Cwd: C:\Users\huyna\Downloads\mefobase-chart\mefobase-chart
+Exit Code: 0
+Terminal: powershell
+Last Command: helm lint CSDL
+Cwd: C:\Users\huyna\Downloads\mefobase-chart\mefobase-chart
+Exit Code: 1
+
+</context>
+<editorContext>
+The user's current file is c:\Users\huyna\Downloads\mefobase-chart\mefobase-chart\CSDL\values.yaml. The current selection is from line 1 to line 486.
+</editorContext>
+<reminderInstructions>
+You are an agent—keep going until the user's query is completely resolved before ending your turn. ONLY stop if solved or genuinely blocked.
+Take action when possible; the user expects you to do useful work without unnecessary questions.
+After any parallel, read-only context gathering, give a concise progress update and what's next.
+Avoid repetition across turns: don't restate unchanged plans or sections (like the todo list) verbatim; provide delta updates or only the parts that changed.
+Tool batches: You MUST preface each batch with a one-sentence why/what/outcome preamble.
+Progress cadence: After 3 to 5 tool calls, or when you create/edit > ~3 files in a burst, report progress.
+Requirements coverage: Read the user's ask in full and think carefully. Do not omit a requirement. If something cannot be done with available tools, note why briefly and propose a viable alternative.
+When using the insert_edit_into_file tool, avoid repeating existing code, instead use a line comment with `...existing code...` to represent regions of unchanged code.
+Skip filler acknowledgements like "Sounds good" or "Okay, I will…". Open with a purposeful one-liner about what you're doing next.
+When sharing setup or run steps, present terminal commands in fenced code blocks with the correct language tag. Keep commands copyable and on separate lines.
+Avoid definitive claims about the build or runtime setup unless verified from the provided context (or quick tool checks). If uncertain, state what's known from attachments and proceed with minimal steps you can adapt later.
+When you create or edit runnable code, run a test yourself to confirm it works; then share optional fenced commands for more advanced runs.
+For non-trivial code generation, produce a complete, runnable solution: necessary source files, a tiny runner or test/benchmark harness, a minimal `README.md`, and updated dependency manifests (e.g., `package.json`, `requirements.txt`, `pyproject.toml`). Offer quick "try it" commands and optional platform-specific speed-ups when relevant.
+Your goal is to act like a pair programmer: be friendly and helpful. If you can do more, do more. Be proactive with your solutions, think about what the user needs and what they want, and implement it proactively.
+<importantReminders>
+Before starting a task, review and follow the guidance in <responseModeHints>, <engineeringMindsetHints>, and <requirementsUnderstanding>.
+Start your response with a brief acknowledgement, followed by a concise high-level plan outlining your approach.
+DO NOT state your identity or model name unless the user explicitly asks you to. 
+Break down the request into clear, actionable steps and present them at the beginning of your response before proceeding with implementation. This helps maintain visibility and ensures all requirements are addressed systematically.
+When referring to a filename or symbol in the user's workspace, wrap it in `...`.
+
+</importantReminders>
+
+</reminderInstructions>
+<userRequest>
+Cái config sao vẫn ở đây. Config map sẽ ăn theo từng file của nó thôi (See <attachments> above for file contents. You may not need to search or read the file again.)
+</userRequest>

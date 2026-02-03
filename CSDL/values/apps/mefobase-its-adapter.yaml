@@ -1,0 +1,4 @@
+apps:
+    mefobase-its-adapter:
+        image: registry.mefobase.vn/mefobase-its-adapter:1.0.0
+        containerPort: 80

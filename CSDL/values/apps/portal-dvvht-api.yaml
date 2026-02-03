@@ -1,0 +1,4 @@
+apps:
+    portal-dvvht-api:
+        image: hoanvu/portal-dvvht-os-api
+        containerPort: 80

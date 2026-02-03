@@ -1,0 +1,5 @@
+apps:
+    mefobase-ui:
+        image: registry.etc.vn/ttdvcn/mefobase-core/dev:81f2191a
+        containerPort: 80
+        type: frontend

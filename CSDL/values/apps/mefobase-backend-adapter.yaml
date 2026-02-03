@@ -1,0 +1,4 @@
+apps:
+    mefobase-backend-adapter:
+        image: hoanvu/backend-adapter:latest
+        containerPort: 80

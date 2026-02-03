@@ -1,65 +1,75 @@
-{{- range .Values.apps }}
+{{- $apps := dict }}
+{{- range $path, $content := .Files.Glob "values/apps/*.yaml" }}
+{{- $file := fromYaml $content }}
+{{- if $file.apps }}
+{{- $apps = merge $apps $file.apps }}
+{{- end }}
+{{- end }}
+{{- if .Values.apps }}
+{{- $apps = merge $apps .Values.apps }}
+{{- end }}
+{{- range $name, $app := $apps }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .name }}
+  name: {{ $app.name | default $name }}
   labels:
-    app: {{ .name }}
+    app: {{ $app.name | default $name }}
     group: mefobase
 spec:
-  replicas: {{ .replicas | default 1 }}
+  replicas: {{ $app.replicas | default 1 }}
   selector:
     matchLabels:
-      app: {{ .name }}
+      app: {{ $app.name | default $name }}
   strategy:
     type: RollingUpdate # Checklist 3.1: Rolling deploy
   template:
     metadata:
       labels:
-        app: {{ .name }}
+        app: {{ $app.name | default $name }}
     spec:
       imagePullSecrets:
         {{- toYaml $.Values.global.imagePullSecrets | nindent 8 }}
       containers:
-        - name: {{ .name }}
-          image: "{{ .image }}"
+        - name: {{ $app.name | default $name }}
+          image: "{{ $app.image }}"
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: {{ .containerPort }}
+            - containerPort: {{ $app.containerPort }}
           
           # Checklist 4.1: Env Variables
       envFrom:
       - configMapRef:
-        name: {{ .configMapName | default "mefobase-config" }}
+                name: {{ $app.configMapName | default "mefobase-config" }}
       - secretRef:
-        name: {{ .secretName | default "mefobase-secrets" }}
-          {{- if .env }}
+                name: {{ $app.secretName | default "mefobase-secrets" }}
+          {{- if $app.env }}
           env:
-            {{- toYaml .env | nindent 12 }}
+            {{- toYaml $app.env | nindent 12 }}
           {{- end }}
 
           # Checklist 3.6 & 5.3: Resource Limits & GPU
           resources:
-            {{- toYaml .resources | nindent 12 }}
+            {{- toYaml $app.resources | nindent 12 }}
 
           # Checklist 6.1: Health Check
           livenessProbe:
             httpGet:
-              path: {{ if eq .type "frontend" }}/{{ else }}/health{{ end }}
-              port: {{ .containerPort }}
+              path: {{ if eq $app.type "frontend" }}/{{ else }}/health{{ end }}
+              port: {{ $app.containerPort }}
             initialDelaySeconds: 30
             periodSeconds: 10
           readinessProbe:
             httpGet:
-              path: {{ if eq .type "frontend" }}/{{ else }}/ready{{ end }}
-              port: {{ .containerPort }}
+              path: {{ if eq $app.type "frontend" }}/{{ else }}/ready{{ end }}
+              port: {{ $app.containerPort }}
             initialDelaySeconds: 10
             periodSeconds: 5
 
       # Checklist 3.6 GPU Node Selector
-      {{- if .nodeSelector }}
+      {{- if $app.nodeSelector }}
       nodeSelector:
-        {{- toYaml .nodeSelector | nindent 8 }}
+        {{- toYaml $app.nodeSelector | nindent 8 }}
       {{- end }}
 {{- end }}
