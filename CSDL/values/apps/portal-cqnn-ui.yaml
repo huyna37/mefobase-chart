@@ -1,6 +1,6 @@
 apps:
-    portal-cqnn-ui:
-        image: hoanvu/portal-cqnn-os-ui
+    cqnn-ui:
+        image: 10.110.9.17/admin/cqnn-ui
         containerPort: 80
         nodePort: 30063
         type: frontend

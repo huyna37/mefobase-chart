@@ -1,5 +1,5 @@
 apps:
-    portal-dvvht-api:
-        image: hoanvu/portal-dvvht-os-api
+    dvvht-api:
+        image: 10.110.9.17/admin/dvvht-api
         containerPort: 80
         nodePort: 30064

@@ -35,18 +35,30 @@ spec:
 {{- end }}
 
 # Service cho Database
-{{- range $j, $db := .Values.databases }}
+{{- $databases := dict }}
+{{- range $path, $content := .Files.Glob "values/databases/*.yaml" }}
+{{- $file := fromYaml $content }}
+{{- if $file.databases }}
+{{- $databases = merge $databases $file.databases }}
+{{- end }}
+{{- end }}
+{{- if .Values.databases }}
+{{- $databases = merge $databases .Values.databases }}
+{{- end }}
+{{- $dbKeys := keys $databases | sortAlpha }}
+{{- range $j, $name := $dbKeys }}
+{{- $db := index $databases $name }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ $db.name }}
+  name: {{ $db.name | default $name }}
   labels:
-    app: {{ $db.name }}
+    app: {{ $db.name | default $name }}
 spec:
   type: {{ $serviceType }}
   selector:
-    app: {{ $db.name }}
+    app: {{ $db.name | default $name }}
   ports:
     - port: {{ $db.port }}
       targetPort: {{ $db.port }}

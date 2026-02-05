@@ -5,5 +5,5 @@ type: application
 version: 1.0.0
 appVersion: "1.0.0"
 maintainers:
-  - name: Nguyen Anh Huy
-    email: huyna@etc.vn
+    - name: Nguyen Anh Huy
+      email: huyna@etc.vn

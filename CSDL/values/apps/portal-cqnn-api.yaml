@@ -1,5 +1,5 @@
 apps:
-    portal-cqnn-api:
-        image: hoanvu/portal-cqnn-os-api
+    cqnn-api:
+        image: 10.110.9.17/admin/cqnn-api
         containerPort: 80
         nodePort: 30062

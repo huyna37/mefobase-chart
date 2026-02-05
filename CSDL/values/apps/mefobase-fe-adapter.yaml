@@ -1,5 +1,5 @@
 apps:
     mefobase-fe-adapter:
-        image: registry.mefobase.vn/mefobase-fe-adapter:1.0.0
+        image: 10.110.9.17/admin/mefobase-fe-adapter
         containerPort: 80
         nodePort: 30056

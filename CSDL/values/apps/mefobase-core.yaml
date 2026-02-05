@@ -1,8 +1,0 @@
-apps:
-    mefobase-core:
-        image: registry.etc.vn/ttdvcn/mefobase-core/dev:81f2191a
-        containerPort: 80
-        nodePort: 30051
-        replicas: 1
-        configMapName: mefobase-core-config
-        secretName: mefobase-core-secret

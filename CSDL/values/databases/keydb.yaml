@@ -1,0 +1,7 @@
+databases:
+    keydb:
+        image: 10.110.9.17/admin/keydb
+        port: 6379
+        nodePort: 30066
+        storageSize: 10Gi
+        mountPath: /data

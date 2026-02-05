@@ -1,6 +1,6 @@
 apps:
     ocr-toolkit:
-        image: hoanvu/ocr-toolkit
+        image: 10.110.9.17/admin/ocr-toolkit
         containerPort: 5000
         nodePort: 30060
         configMapName: ocr-toolkit

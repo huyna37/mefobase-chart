@@ -1,41 +1,53 @@
-{{- range .Values.databases }}
+{{- $databases := dict }}
+{{- range $path, $content := .Files.Glob "values/databases/*.yaml" }}
+{{- $file := fromYaml $content }}
+{{- if $file.databases }}
+{{- $databases = merge $databases $file.databases }}
+{{- end }}
+{{- end }}
+{{- if .Values.databases }}
+{{- $databases = merge $databases .Values.databases }}
+{{- end }}
+{{- $dbKeys := keys $databases | sortAlpha }}
+{{- range $i, $name := $dbKeys }}
+{{- $db := index $databases $name }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ .name }}
+  name: {{ $db.name | default $name }}
   labels:
-    app: {{ .name }}
+    app: {{ $db.name | default $name }}
     {{- include "mefobase.labels" $ | nindent 4 }}
 spec:
-  serviceName: {{ .name }}
+  serviceName: {{ $db.name | default $name }}
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .name }}
+      app: {{ $db.name | default $name }}
   template:
     metadata:
       labels:
-        app: {{ .name }}
+        app: {{ $db.name | default $name }}
     spec:
       containers:
-        - name: {{ .name }}
-          image: {{ .image }}
+        - name: {{ $db.name | default $name }}
+          image: {{ $db.image }}
           ports:
-            - containerPort: {{ .port }}
+            - containerPort: {{ $db.port }}
           envFrom:
             - secretRef:
                 name: mefobase-secrets
-          {{- if .env }}
+          {{- if $db.env }}
           env:
-            {{- range $key, $value := .env }}
+            {{- range $key, $value := $db.env }}
             - name: {{ $key }}
               value: {{ $value | quote }}
             {{- end }}
           {{- end }}
           volumeMounts:
             - name: data
-              mountPath: {{ .mountPath }}
+              mountPath: {{ $db.mountPath }}
   volumeClaimTemplates:
     - metadata:
         name: data
@@ -43,5 +55,5 @@ spec:
         accessModes: [ "ReadWriteOnce" ]
         resources:
           requests:
-            storage: {{ .storageSize }}
+            storage: {{ $db.storageSize }}
 {{- end }}

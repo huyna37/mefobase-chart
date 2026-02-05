@@ -1,5 +1,5 @@
 apps:
     mefobase-api-share:
-        image: registry.mefobase.vn/mefobase-api-share:1.0.0
+        image: 10.110.9.17/admin/mefobase-api-share
         containerPort: 80
         nodePort: 30053

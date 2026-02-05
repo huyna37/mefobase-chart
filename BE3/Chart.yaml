@@ -1,6 +1,0 @@
-apiVersion: v2
-name: backend3-system
-description: Helm chart cho du an Backend3 (Production)
-type: application
-version: 1.0.0
-appVersion: "1.0.0"

@@ -1,5 +1,5 @@
 apps:
     mefobase-notification:
-        image: registry.mefobase.vn/mefobase-notification:1.0.0
+        image: 10.110.9.17/admin/mefobase-notification
         containerPort: 80
         nodePort: 30058

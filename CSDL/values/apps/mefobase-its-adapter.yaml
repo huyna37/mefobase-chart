@@ -1,5 +1,5 @@
 apps:
     mefobase-its-adapter:
-        image: registry.mefobase.vn/mefobase-its-adapter:1.0.0
+        image: 10.110.9.17/admin/mefobase-its-adapter
         containerPort: 80
         nodePort: 30057

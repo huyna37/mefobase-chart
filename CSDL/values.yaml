@@ -5,3 +5,10 @@ global:
     serviceType: NodePort
 
 apps: {}
+databases: {}
+
+keydb:
+    enabled: true
+    service:
+        type: NodePort
+        nodePort: 30066

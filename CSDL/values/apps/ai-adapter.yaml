@@ -1,5 +1,5 @@
 apps:
     ai-adapter:
-        image: registry.mefobase.vn/ai-adapter:1.0.0
+        image: 10.110.9.17/admin/ai-adapter:1.0.0
         containerPort: 80
         nodePort: 30052

@@ -1,6 +1,6 @@
 apps:
     operator-gateway:
-        image: registry.mefobase.vn/operator-gateway:1.0.0
+        image: 10.110.9.17/admin/operator-gateway
         containerPort: 8080
         nodePort: 30061
         replicas: 2
